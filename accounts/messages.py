@@ -1,0 +1,6 @@
+PHONE_NUMBER_EMAIL_OR_USERNAME_REQUIRED = "Phone number, email or username is required."
+USER_ALREADY_EXISTS = "User already exists with provided details."
+USER_NOT_FOUND = "User not found."
+INCORRECT_PASSWORD = "Incorrect password."
+INVALID_DATA = "Invalid data."
+PASSWORDS_DOES_NOT_MATCH = "Passwords should match."

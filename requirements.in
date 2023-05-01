@@ -1,0 +1,9 @@
+# common modules
+django
+djangorestframework
+django-cors-headers
+djangorestframework_simplejwt
+django-filter
+django-phonenumber-field
+python-decouple
+django-storages
