@@ -28,7 +28,7 @@ class BaseConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.valid_cmds = {
-            States.anonymous: ["authenticate"],
+            States.anonymous: [],
             States.authenticated: [], # to be designed in sub class
         }
         self.state = States.anonymous
@@ -40,7 +40,7 @@ class BaseConsumer(AsyncWebsocketConsumer):
 
     async def response(self, cmd:str, data: dict[Any, Any], status=status.HTTP_200_OK):
         req_data: RequestStructure = {
-            "_req": str(uuid4().hex),
+            "_req": data.get("_req", str(uuid4().hex)),
             "data": data,
             "cmd": cmd,
             "status": status,
