@@ -1,0 +1,1 @@
+INVALID_MESSAGE_PAYLOAD = "Invalid message payload."
