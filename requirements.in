@@ -7,3 +7,14 @@ django-filter
 django-phonenumber-field
 python-decouple
 django-storages
+unicorn
+channels
+django-shell-plus
+django-phonenumber-field
+phonenumbers
+boto3
+pillow
+django-reset-migrations
+whitenoise
+django-extensions
+websockets

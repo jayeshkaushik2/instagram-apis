@@ -12,5 +12,5 @@ urlpatterns = [
 urlpatterns += routes.urls
 
 websocket_urlpatterns = [
-    re_path(r"^chat/$", ChatConsumer.as_asgi()),
+    re_path(r"^chat/$", ChatConsumer.as_asgi(), name="chat"),
 ]

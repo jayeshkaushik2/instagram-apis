@@ -7,6 +7,8 @@ from rest_framework import status, serializers
 from typing import Any
 from accounts.models import User
 from chats import messages as chat_msgs
+from common.functions import async_get_user_from_access_token
+from common.log import log
 
 class SupportedCmds(Enum):
     authenticate = "authenticate"
@@ -58,10 +60,10 @@ class ChatConsumer(BaseConsumer):
         sz = AuthenticateSz(data=data)
         if sz.is_valid(raise_exception=False):
             try:
-                user_id = SlidingToken(token=sz.validated_data['token']).user_id
-                user = await get_user_model().objects.aget(id=user_id)
+                # user_id = SlidingToken(token=sz.validated_data['token']).user_id
+                user = await async_get_user_from_access_token(token=sz.validated_data['token'])
                 self.state = States.authenticated
-                self.scopes["user"] = user
+                self.scope["user"] = user
                 # add user to channel
                 await self.add_user_to_channel(user=user)
                 # accept the connect request
@@ -72,6 +74,7 @@ class ChatConsumer(BaseConsumer):
                     status=status.HTTP_200_OK,
                 )
             except Exception:
+                log.exception("unable to login")
                 await self.response(
                     cmd=SupportedCmds.authenticate.value,
                     data={"messages": ["Invalid token"]},

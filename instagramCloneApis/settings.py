@@ -35,7 +35,10 @@ AUTH_USER_MODEL = "accounts.user"
 # Application definition
 
 INSTALLED_APPS = [
-    "daphne",
+    # 3rd party
+    "django_extensions",
+    "channels",
+    # inbuild
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -63,9 +66,9 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "UPLOADED_FILES_USE_URL": True,
-    # "DEFAULT_RENDERER_CLASSES": [
-    #     "rest_framework.renderers.JSONRenderer",
-    # ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
         "rest_framework.parsers.FormParser",
@@ -206,6 +209,7 @@ AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")  # e.g., 'us-west-1' or 'eu-west-2'
 
 ASGI_APPLICATION = "instagramCloneApis.asgi.application"
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -214,4 +218,67 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
 CHAT_CHANNEL = "chats"
+
+"""
+console: Logs to your terminal.
+
+file: Saves logs to debug.log in your project directory.
+
+root: Applies to all logging unless overridden.
+
+django.db.backends: Logs all SQL queries – useful for debugging DB calls.
+
+Replace "yourappname" with your actual Django app name to enable app-specific logs.
+"""
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # keeps Django's default loggers
+
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} {module} | {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{levelname}] {message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'formatter': 'verbose',
+            'level': 'DEBUG',
+        },
+    },
+
+    'root': {
+        'handlers': ['console',],
+        'level': 'DEBUG',
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['console',],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': [],
+            'level': 'DEBUG',
+        },
+        'chats': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
