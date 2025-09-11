@@ -24,6 +24,7 @@ urlpatterns = [
     path("", include("posts.urls")),
     path("", include("reels.urls")),
     path("", include("stories.urls")),
+    path("", include("chats.urls")),
 ]
 
 if settings.DEBUG:
